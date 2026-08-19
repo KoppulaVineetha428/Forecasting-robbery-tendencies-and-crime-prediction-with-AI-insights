@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% set active = "dashboard" %}
+{% block title %}Dashboard · CrimeSense AI{% endblock %}
+{% block content %}
+<h1 class="page-title">Dashboard</h1>
+<p class="page-sub">Overview of India-wide crime data and AI model performance</p>
+
+<div class="kpi-grid">
+  <div class="kpi kpi-blue"><div class="kpi-label">Total Crimes</div><div class="kpi-value" id="kpi-total">-</div></div>
+  <div class="kpi kpi-red"><div class="kpi-label">Robberies</div><div class="kpi-value" id="kpi-robberies">-</div></div>
+  <div class="kpi kpi-orange"><div class="kpi-label">High Risk Areas</div><div class="kpi-value" id="kpi-highrisk">-</div></div>
+  <div class="kpi kpi-green"><div class="kpi-label">Model Accuracy</div><div class="kpi-value" id="kpi-accuracy">-</div></div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h3>Crime Trend (Monthly)</h3>
+    <canvas id="trendChart" height="220"></canvas>
+  </div>
+  <div class="card">
+    <h3>Crime Type Distribution</h3>
+    <canvas id="typeChart" height="220"></canvas>
+  </div>
+</div>
+
+<div class="card" style="margin-top:20px;">
+  <h3>Top Risk Cities (avg. risk score)</h3>
+  <canvas id="cityChart" height="120"></canvas>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>window.PAGE = "dashboard";</script>
+{% endblock %}

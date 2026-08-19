@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% set active = "hotspot" %}
+{% block title %}Hotspot Analysis · CrimeSense AI{% endblock %}
+{% block content %}
+<h1 class="page-title">Crime Hotspot Analysis</h1>
+<p class="page-sub">Heatmap of crime risk concentration across Indian cities · click any dot for incident details</p>
+
+<div class="card">
+  <div class="field" style="max-width:280px; margin-bottom:14px;">
+    <label>City</label>
+    <select id="hotspot-city">
+      <option value="">All Cities (India)</option>
+      {% for c in meta.cities %}
+      <option value="{{ c }}">{{ c }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div id="map" style="height:520px; border-radius:12px; overflow:hidden;"></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>window.PAGE = "hotspot";</script>
+{% endblock %}

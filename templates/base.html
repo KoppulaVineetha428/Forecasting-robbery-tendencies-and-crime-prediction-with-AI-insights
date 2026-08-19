@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}CrimeSense AI{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link id="leaflet-css" rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+<script>
+  // Library loader with automatic fallback: if the primary CDN is blocked by a
+  // firewall/antivirus/network policy, this tries a second CDN before giving up.
+  window.__libsReady = new Promise((resolve) => {
+    function loadScript(url) {
+      return new Promise((res, rej) => {
+        const s = document.createElement("script");
+        s.src = url;
+        s.onload = res;
+        s.onerror = rej;
+        document.head.appendChild(s);
+      });
+    }
+    function loadWithFallback(urls, checkFn) {
+      let i = 0;
+      function tryNext() {
+        if (checkFn && checkFn()) return Promise.resolve();
+        if (i >= urls.length) return Promise.reject(new Error("all sources failed: " + urls[0]));
+        const url = urls[i++];
+        return loadScript(url).catch(tryNext);
+      }
+      return tryNext();
+    }
+    Promise.all([
+      loadWithFallback([
+        "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js",
+        "https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js",
+        "https://unpkg.com/chart.js@4.4.4/dist/chart.umd.min.js"
+      ], () => window.Chart),
+      loadWithFallback([
+        "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
+        "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"
+      ], () => window.L).then(() => loadWithFallback([
+        "https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js",
+        "https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js"
+      ], () => window.L && window.L.heatLayer))
+    ]).then(resolve).catch((err) => {
+      console.error("Some chart/map libraries failed to load from all sources:", err);
+      resolve(); // resolve anyway so the rest of the page still works
+    });
+  });
+</script>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">🛡️</div>
+      <div>
+        <div class="brand-title">CrimeSense</div>
+        <div class="brand-sub">AI Prediction Engine · India</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="{{ url_for('dashboard') }}" class="{{ 'active' if active=='dashboard' else '' }}">📊 Dashboard</a>
+      <a href="{{ url_for('dataset_page') }}" class="{{ 'active' if active=='dataset' else '' }}">🗂️ Dataset</a>
+      <a href="{{ url_for('preprocessing_page') }}" class="{{ 'active' if active=='preprocessing' else '' }}">⚙️ Preprocessing</a>
+      <a href="{{ url_for('train_page') }}" class="{{ 'active' if active=='train' else '' }}">🧠 Train Model</a>
+      <a href="{{ url_for('model_insights_page') }}" class="{{ 'active' if active=='insights' else '' }}">🔍 Model Insights</a>
+      <a href="{{ url_for('predict_page') }}" class="{{ 'active' if active=='predict' else '' }}">🎯 Prediction</a>
+      <a href="{{ url_for('hotspot_page') }}" class="{{ 'active' if active=='hotspot' else '' }}">🗺️ Hotspot Analysis</a>
+      <a href="{{ url_for('reports_page') }}" class="{{ 'active' if active=='reports' else '' }}">📈 Reports</a>
+      <a href="{{ url_for('sos_page') }}" class="{{ 'active' if active=='sos' else '' }} nav-sos">🚨 SOS</a>
+      <a href="{{ url_for('contacts_page') }}" class="{{ 'active' if active=='contacts' else '' }}">👨‍👩‍👧 Emergency Contacts</a>
+      <a href="{{ url_for('logout') }}">🚪 Logout</a>
+    </nav>
+  </aside>
+  <main class="content">
+    <header class="topbar">
+      <div></div>
+      <div class="user-chip">👤 {{ username }}</div>
+    </header>
+    <div class="page">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="flash">{{ messages[0] }}</div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+</div>
+{% block scripts %}{% endblock %}
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

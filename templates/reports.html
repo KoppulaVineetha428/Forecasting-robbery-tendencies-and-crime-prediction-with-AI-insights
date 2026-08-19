@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% set active = "reports" %}
+{% block title %}Reports · CrimeSense AI{% endblock %}
+{% block content %}
+<h1 class="page-title">Reports & Graphs</h1>
+<p class="page-sub">Aggregate crime insights across the dataset</p>
+
+<div class="grid-3">
+  <div class="card">
+    <h3>Crime Trend (Yearly)</h3>
+    <canvas id="yearChart" height="200"></canvas>
+  </div>
+  <div class="card">
+    <h3>Crime by Time of Day</h3>
+    <canvas id="timeChart" height="200"></canvas>
+  </div>
+  <div class="card">
+    <h3>Top 5 Crime Areas</h3>
+    <canvas id="areaChart" height="200"></canvas>
+  </div>
+</div>
+
+<div class="card" style="margin-top:20px;">
+  <h3>Recent Predictions (this session)</h3>
+  <div class="table-wrap">
+    <table class="data-table" id="recent-table">
+      <thead><tr><th>City</th><th>Area</th><th>Date</th><th>Time</th><th>Predicted</th><th>Risk</th></tr></thead>
+      <tbody id="recent-body"><tr><td colspan="6" class="muted">No predictions yet</td></tr></tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>window.PAGE = "reports";</script>
+{% endblock %}

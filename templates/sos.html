@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% set active = "sos" %}
+{% block title %}SOS · CrimeSense AI{% endblock %}
+{% block content %}
+<h1 class="page-title">Emergency SOS</h1>
+<p class="page-sub">If you feel unsafe, press the button below. Your live location will be sent to your emergency contacts by email and SMS.</p>
+
+<div class="sos-grid">
+  <div class="card sos-card">
+    <div id="sos-idle">
+      <textarea id="sos-note" class="sos-note" placeholder="Optional: describe what's happening (e.g. 'being followed near MG Road')" rows="3"></textarea>
+      <button id="sos-btn" class="sos-button">
+        <span class="sos-icon">🚨</span>
+        <span>PRESS FOR SOS</span>
+      </button>
+      <p class="muted small" style="margin-top:14px; text-align:center;">
+        This will capture your current GPS location and immediately alert all your saved emergency contacts.
+      </p>
+      <p class="muted small" id="loc-status" style="text-align:center;">Location: not yet captured</p>
+    </div>
+
+    <div id="sos-sending" style="display:none; text-align:center; padding:30px;">
+      <div class="spinner"></div>
+      <p>Sending alert to your emergency contacts...</p>
+    </div>
+
+    <div id="sos-result" style="display:none;">
+      <div class="success-banner" id="sos-result-banner">Alert Sent</div>
+      <div class="kv-row"><span>Contacts Notified</span><b id="sos-contacts-count">-</b></div>
+      <div class="kv-row"><span>Email Status</span><b id="sos-email-status">-</b></div>
+      <div class="kv-row"><span>SMS Status</span><b id="sos-sms-status">-</b></div>
+      <button class="btn-primary btn-full" id="sos-reset-btn" style="margin-top:16px;">Send Another Alert</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Before You Rely On This</h3>
+    <ul class="checklist">
+      <li>📇 Add at least one emergency contact with a valid email/phone on the <a href="{{ url_for('contacts_page') }}">Emergency Contacts</a> page</li>
+      <li>📍 Allow location access when your browser asks for it</li>
+      <li>✉️ Email sending requires the project owner to configure a Gmail account (see README)</li>
+      <li>📱 SMS sending requires a configured Twilio account (see README) — free Twilio trial accounts can only text pre-verified numbers</li>
+      <li>🚔 For real emergencies, always also call <b>112</b> (India's national emergency number) or your local police</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card" style="margin-top:20px;">
+  <h3>Recent SOS Alerts (your account)</h3>
+  <div class="table-wrap">
+    <table class="data-table" id="sos-history-table">
+      <thead><tr><th>Time</th><th>Note</th><th>Location</th><th>Email</th><th>SMS</th></tr></thead>
+      <tbody id="sos-history-body"><tr><td colspan="5" class="muted">No alerts sent yet</td></tr></tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>window.PAGE = "sos";</script>
+{% endblock %}

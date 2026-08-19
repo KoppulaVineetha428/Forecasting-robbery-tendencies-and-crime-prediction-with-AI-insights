@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login · CrimeSense AI</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="auth-body">
+  <div class="auth-bg"></div>
+  <div class="auth-card">
+    <div class="auth-icon">🛡️</div>
+    <h1>CRIME PREDICTION SYSTEM</h1>
+    <p class="auth-sub">AI Insights · Login to Continue</p>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}<div class="flash">{{ messages[0] }}</div>{% endif %}
+    {% endwith %}
+    <form method="POST">
+      <label>Username</label>
+      <input type="text" name="username" placeholder="Username" required autofocus>
+      <label>Password</label>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit" class="btn-primary">Login</button>
+    </form>
+    <p class="auth-foot">Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
+    <p class="auth-hint">Demo login → <b>admin</b> / <b>admin123</b></p>
+  </div>
+</body>
+</html>

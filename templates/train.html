@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% set active = "train" %}
+{% block title %}Train Model · CrimeSense AI{% endblock %}
+{% block content %}
+<h1 class="page-title">Train AI Model</h1>
+<p class="page-sub">Random Forest classifier trained on the crime dataset</p>
+
+<div class="card">
+  <div class="kv-row"><span>Selected Algorithm</span><b>Random Forest Classifier</b></div>
+  <div class="kv-row"><span>Estimators</span><b>200 trees, max depth 12</b></div>
+  <div class="kv-row"><span>Current Model Accuracy</span><b id="train-accuracy">{{ meta.accuracy }}%</b></div>
+  <div class="kv-row"><span>Model Status</span><b class="status-ok" id="train-status">Trained Successfully</b></div>
+
+  <div class="progress-wrap" id="progress-wrap" style="display:none;">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div id="progress-text">Training...</div>
+  </div>
+
+  <button class="btn-primary" id="retrain-btn" style="margin-top:18px;">Retrain Model</button>
+  <div id="train-log" class="muted" style="margin-top:12px;"></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>window.PAGE = "train";</script>
+{% endblock %}

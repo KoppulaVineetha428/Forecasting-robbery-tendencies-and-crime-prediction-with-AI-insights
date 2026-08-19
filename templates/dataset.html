@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% set active = "dataset" %}
+{% block title %}Dataset · CrimeSense AI{% endblock %}
+{% block content %}
+<div class="page-head-row">
+  <div>
+    <h1 class="page-title">Dataset</h1>
+    <p class="page-sub">Synthetic India crime dataset used for training (6,000 records)</p>
+    <p class="muted small" style="max-width:700px;">
+      City-level risk baselines are calibrated using real relative crime rates from the
+      <b>NCRB "Crime in India 2022"</b> report (e.g. Delhi highest, Kolkata lowest among metros).
+      Individual incident records (exact date/time/location per row) are synthetically generated,
+      since no country publicly releases incident-level crime data with GPS coordinates for privacy reasons.
+    </p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="table-wrap">
+    <table class="data-table" id="dataset-table">
+      <thead>
+        <tr>
+          <th>ID</th><th>Date</th><th>Time</th><th>Day</th><th>City</th><th>Area</th>
+          <th>Area Type</th><th>Weather</th><th>Crime Type</th><th>Risk Score</th><th>Risk Level</th>
+        </tr>
+      </thead>
+      <tbody id="dataset-body">
+        <tr><td colspan="11" class="muted">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination" id="pagination"></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>window.PAGE = "dataset";</script>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% set active = "predict" %}
+{% block title %}Predict · CrimeSense AI{% endblock %}
+{% block content %}
+<h1 class="page-title">AI Risk Predictor</h1>
+<p class="page-sub">Enter location & environmental factors to forecast crime risk</p>
+
+<div class="predict-grid">
+  <div class="card">
+    <h3>Input Parameters</h3>
+    <div class="form-grid">
+      <div class="field">
+        <label>State / City</label>
+        <select id="f-city"></select>
+      </div>
+      <div class="field">
+        <label>Area</label>
+        <select id="f-area"></select>
+      </div>
+      <div class="field">
+        <label>Area Type</label>
+        <select id="f-areatype"></select>
+      </div>
+      <div class="field">
+        <label>Weather</label>
+        <select id="f-weather"></select>
+      </div>
+      <div class="field">
+        <label>Day of Week</label>
+        <select id="f-day"></select>
+      </div>
+      <div class="field">
+        <label>Date</label>
+        <input type="date" id="f-date">
+      </div>
+      <div class="field">
+        <label>Time</label>
+        <input type="time" id="f-time" value="22:00">
+      </div>
+    </div>
+    <button class="btn-primary btn-full" id="predict-btn" style="margin-top:10px;">Run AI Prediction</button>
+  </div>
+
+  <div class="card">
+    <h3>Prediction Result</h3>
+    <div id="result-empty" class="result-empty">
+      <div class="result-icon">🎯</div>
+      <p>Fill in the parameters and click "Run AI Prediction"</p>
+    </div>
+    <div id="result-box" style="display:none;">
+      <div class="result-row result-highlight">
+        <span>Predicted Crime Type</span>
+        <b id="res-crime">-</b>
+      </div>
+      <div class="result-row"><span>Risk Score</span><b id="res-score">-</b></div>
+      <div class="result-row"><span>Risk Level</span><b id="res-level">-</b></div>
+      <div class="result-row"><span>Suggested Action</span><span id="res-action" class="muted">-</span></div>
+      <canvas id="probChart" height="160" style="margin-top:16px;"></canvas>
+    </div>
+  </div>
+</div>
+
+<div id="location-section" style="display:none;">
+  <div class="card" style="margin-top:20px;">
+    <h3>Previous Cases at This Location</h3>
+    <p class="muted small">Most recent matching records from the dataset for this exact city + area</p>
+    <div class="table-wrap">
+      <table class="data-table" id="cases-table">
+        <thead><tr><th>Date</th><th>Time</th><th>Day</th><th>Crime Type</th><th>Risk</th><th>What Happened</th></tr></thead>
+        <tbody id="cases-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-top:20px;">
+    <div class="card">
+      <h3>Monthly Trend — This Area</h3>
+      <canvas id="locMonthChart" height="200"></canvas>
+    </div>
+    <div class="card">
+      <h3>Crime Type Distribution — This Area</h3>
+      <canvas id="locTypeChart" height="200"></canvas>
+    </div>
+    <div class="card">
+      <h3>Top Risk Areas in {{ '' }}<span id="loc-city-name"></span></h3>
+      <canvas id="locTopAreasChart" height="200"></canvas>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  window.PAGE = "predict";
+  window.CITIES_MAP = {{ meta.areas_by_city|tojson }};
+  window.AREA_TYPES = {{ meta.area_types|tojson }};
+  window.WEATHER_OPTIONS = {{ meta.weather_options|tojson }};
+  window.DAYS = {{ meta.days|tojson }};
+</script>
+{% endblock %}

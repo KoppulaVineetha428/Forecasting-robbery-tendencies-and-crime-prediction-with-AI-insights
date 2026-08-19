@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% set active = "insights" %}
+{% block title %}Model Insights · CrimeSense AI{% endblock %}
+{% block content %}
+<h1 class="page-title">Model Insights</h1>
+<p class="page-sub">How the AI model makes decisions — feature importance, evaluation metrics & confusion matrix</p>
+
+<div class="grid-2">
+  <div class="card">
+    <h3>Feature Importance</h3>
+    <p class="muted small">Which factors influence the model's predictions the most</p>
+    <canvas id="importanceChart" height="220"></canvas>
+  </div>
+  <div class="card">
+    <h3>Model Summary</h3>
+    <div class="kv-row"><span>Overall Accuracy</span><b id="mi-accuracy">-</b></div>
+    <div class="kv-row"><span>Macro F1-Score</span><b id="mi-macrof1">-</b></div>
+    <div class="kv-row"><span>Weighted F1-Score</span><b id="mi-weightedf1">-</b></div>
+    <div class="kv-row"><span>Baseline (random guess, 5 classes)</span><b>~20%</b></div>
+    <p class="muted small" style="margin-top:14px;">
+      Macro F1 treats every crime type equally; weighted F1 accounts for how common each
+      type is in the data. Both being well above the 20% random baseline shows the model
+      is learning genuine patterns rather than guessing.
+    </p>
+  </div>
+</div>
+
+<div class="card" style="margin-top:20px;">
+  <h3>Precision / Recall / F1 by Crime Type</h3>
+  <p class="muted small">Precision: of predictions labeled X, how many were actually X. Recall: of actual X cases, how many the model caught.</p>
+  <div class="table-wrap">
+    <table class="data-table" id="metrics-table">
+      <thead><tr><th>Crime Type</th><th>Precision</th><th>Recall</th><th>F1-Score</th><th>Support (test rows)</th></tr></thead>
+      <tbody id="metrics-body"><tr><td colspan="5" class="muted">Loading...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card" style="margin-top:20px;">
+  <h3>Confusion Matrix</h3>
+  <p class="muted small">Rows = actual crime type, Columns = predicted crime type. Darker diagonal = better.</p>
+  <div id="cm-wrap" class="table-wrap"></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>window.PAGE = "model_insights";</script>
+{% endblock %}

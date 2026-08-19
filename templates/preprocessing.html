@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% set active = "preprocessing" %}
+{% block title %}Preprocessing · CrimeSense AI{% endblock %}
+{% block content %}
+<h1 class="page-title">Data Preprocessing</h1>
+<p class="page-sub">Steps applied to the raw dataset before model training</p>
+
+<div class="card">
+  <ul class="checklist">
+    <li>✅ <b>Handling Missing Values</b><span class="tag-done">Completed</span></li>
+    <li>✅ <b>Encoding Categorical Data</b> (city, area, area type, weather, day) <span class="tag-done">Completed</span></li>
+    <li>✅ <b>Feature Extraction</b> (hour from time, month from date) <span class="tag-done">Completed</span></li>
+    <li>✅ <b>Train/Test Split</b> (80/20, stratified) <span class="tag-done">Completed</span></li>
+    <li>✅ <b>Class Balance Check</b> <span class="tag-done">Completed</span></li>
+  </ul>
+  <div class="success-banner">Preprocessing Completed Successfully!</div>
+</div>
+{% endblock %}

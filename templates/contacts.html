@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% set active = "contacts" %}
+{% block title %}Emergency Contacts · CrimeSense AI{% endblock %}
+{% block content %}
+<h1 class="page-title">Emergency Contacts</h1>
+<p class="page-sub">People who will be notified when you press SOS</p>
+
+<div class="grid-2">
+  <div class="card">
+    <h3>Add Contact</h3>
+    <div class="field"><label>Name</label><input type="text" id="c-name" placeholder="e.g. Mom"></div>
+    <div class="field"><label>Relation</label><input type="text" id="c-relation" placeholder="e.g. Mother, Friend, Roommate"></div>
+    <div class="field"><label>Phone (with country code)</label><input type="text" id="c-phone" placeholder="+919876543210"></div>
+    <div class="field"><label>Email</label><input type="text" id="c-email" placeholder="name@example.com"></div>
+    <button class="btn-primary btn-full" id="add-contact-btn">Add Contact</button>
+    <p class="muted small" style="margin-top:10px;">Add at least one — SOS alerts go out to every contact listed here.</p>
+  </div>
+
+  <div class="card">
+    <h3>Your Contacts</h3>
+    <div id="contacts-list"><p class="muted">Loading...</p></div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>window.PAGE = "contacts";</script>
+{% endblock %}

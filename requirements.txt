@@ -6,3 +6,4 @@ joblib
 Werkzeug
 twilio
 python-dotenv
+gunicorn
